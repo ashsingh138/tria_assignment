@@ -2,12 +2,11 @@
 
 This is a dynamic, single-page contact list application built for the Tria frontend development assignment. It demonstrates a complete CRUD (Create, Read, Update, Delete) workflow, efficient state management with React hooks, and a focus on a polished user experience.
 
-**Deployed Application URL:** `https://[YOUR_VERCEL_URL].vercel.app/`
-*(Replace this with your actual Vercel deployment link)*
+**Deployed Application URL:** `https://triaassignment.netlify.app/`
 
 ---
 
-## ✨ Features
+##  Features
 
 This project implements all core requirements and several advanced features to demonstrate product sense and technical skill.
 
@@ -32,7 +31,7 @@ This project implements all core requirements and several advanced features to d
 
 ---
 
-## 🛠️ Tech Stack & Libraries Used
+##  Tech Stack & Libraries Used
 
 * **React:** The core library for building the user interface with a component-based architecture.
 * **Vite:** The build tool and development server. Chosen for its blazing-fast HMR (Hot Module Replacement) and modern, ESM-based architecture, which provides a superior developer experience.
@@ -43,12 +42,12 @@ This project implements all core requirements and several advanced features to d
 
 ---
 
-## 🚀 How to Set Up and Run Locally
+##  How to Set Up and Run Locally
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/](https://github.com/)[YOUR_USERNAME]/[YOUR_REPO_NAME].git
-    cd [YOUR_REPO_NAME]
+    git clone https://github.com/ashsingh138/tria_assignment.git
+    cd tria_contactlist
     ```
 
 2.  **Install Dependencies:**
@@ -89,6 +88,6 @@ The assignment intentionally left some details open. Here are the key assumption
     * To prevent accidental data loss, a simple `window.confirm()` browser dialogue is used before deleting a contact. In a production app, this would be a custom-styled confirmation modal, but `window.confirm()` is a quick and effective way to demonstrate the intended UX.
 
 5.  **AI Usage:**
-    * AI (Gemini) was used as a development partner throughout this assignment.
+    * AI was used as a development partner throughout this assignment.
     * It helped scaffold the initial project structure, write boilerplate (like the mock data and the `README` structure), and act as a "rubber duck" for debugging and brainstorming new features (like debouncing and local storage).
     * All code was ultimately written, reviewed, and refactored by me to ensure correctness, maintainability, and a coherent application architecture that meets the assignment's goals.
