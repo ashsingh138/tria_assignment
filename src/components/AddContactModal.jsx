@@ -1,25 +1,32 @@
 import { useState, useEffect } from 'react';
+import { useContactStore } from '../store/contactStore';
+import toast from 'react-hot-toast';
 import { UserPlusIcon, PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
-export default function AddContactModal({ isOpen, onClose, onSave, contactToEdit }) {
+export default function AddContactModal({ isOpen, onClose, contactToEdit }) {
+  // --- Get actions from Zustand store ---
+
+  //
+  const addContact = useContactStore((state) => state.addContact);
+  const updateContact = useContactStore((state) => state.updateContact);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
-  
+  // Sync form state with the contact being edited
   useEffect(() => {
     if (contactToEdit) {
-      
       setName(contactToEdit.name);
       setEmail(contactToEdit.email);
       setPhone(contactToEdit.phone || '');
     } else {
-      
       setName('');
       setEmail('');
       setPhone('');
     }
-  }, [contactToEdit, isOpen]); 
+  }, [contactToEdit, isOpen]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !email) {
@@ -27,12 +34,19 @@ export default function AddContactModal({ isOpen, onClose, onSave, contactToEdit
       return;
     }
     
-    // Pass the data up to App.jsx
-    // App.jsx will decide whether to Add or Update
-    onSave({ name, email, phone });
+    const contactData = { name, email, phone };
+
+    if (isEditing) {
+      updateContact(contactToEdit.id, contactData);
+      toast.success('Contact updated!');
+    } else {
+      addContact(contactData);
+      toast.success('Contact added!');
+    }
+    
+    onClose(); // Close the modal
   };
 
-  // NEW: Dynamic content based on whether we are adding or editing
   const isEditing = !!contactToEdit;
   const modalTitle = isEditing ? 'Edit Contact' : 'Add New Contact';
   const saveButtonText = isEditing ? 'Save Changes' : 'Save Contact';
@@ -52,10 +66,9 @@ export default function AddContactModal({ isOpen, onClose, onSave, contactToEdit
     >
       {/* Modal */}
       <div
-        onClick={(e) => e.stopPropagation()} // Prevent click from bubbling to backdrop
+        onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-2xl m-4"
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white"

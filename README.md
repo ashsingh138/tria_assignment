@@ -66,7 +66,7 @@ This project implements all core requirements and several advanced features to d
 
 ---
 
-## 🧠 Assumptions & Design Choices
+##  Assumptions & Design Choices
 
 The assignment intentionally left some details open. Here are the key assumptions and design decisions I made:
 
