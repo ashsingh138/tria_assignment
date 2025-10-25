@@ -1,62 +1,76 @@
-# Tria Contact List - Frontend Assignment
+# MyContact - Tria Frontend Assignment
 
-This is a dynamic, single-page contact list application built for the Tria frontend development assignment. It demonstrates a complete CRUD (Create, Read, Update, Delete) workflow, efficient state management with React hooks, and a focus on a polished user experience.
+This is a dynamic, single-page contact list application built with React. It demonstrates a scalable, production-grade architecture using **global state management (Zustand)** and **client-side routing (React Router)** to provide a complete CRUD (Create, Read, Update, Delete) experience.
 
 **Deployed Application URL:** `https://triaassignment.netlify.app/`
 
----
+-----
 
 ##  Features
 
 This project implements all core requirements and several advanced features to demonstrate product sense and technical skill.
 
-* **Full CRUD Functionality:**
-    * **Create:** Add new contacts to the list via a responsive modal.
-    * **Read:** View all contacts in a clean, responsive card grid.
-    * **Update:** Edit any contact's information using the same intelligent modal.
-    * **Delete:** Remove contacts from the list with a simple confirmation step.
+  * **Full CRUD Functionality:**
 
-* **Interactive UI & UX:**
-    * **Real-time Search:** Filter the contact list instantly by name.
-    * **Debounced Input:** The search input is "debounced" by 300ms. This is a performance optimization that waits for the user to stop typing before filtering, preventing excessive re-renders on a large list or spamming an API.
-    * **Toast Notifications:** The app uses `react-hot-toast` to provide non-intrusive feedback for all CRUD operations (e.g., "Contact added!", "Contact deleted.").
-    * **Rich UI States:** The application provides clear user feedback for all possible states:
-        * **Loading State:** A spinner is shown while the initial data is "fetched."
-        * **Empty State:** A helpful message is shown if the contact list is empty.
-        * **No Results State:** A different message is shown if a search yields no results.
-        * **Error State:** A panel is displayed if the mock data fails to load.
+      * **Create:** Add new contacts to the list via a responsive modal.
+      * **Read:** View all contacts in a clean, responsive card grid.
+      * **Update:** Edit any contact's information using the same intelligent modal.
+      * **Delete:** Remove contacts from the list with a custom, reusable confirmation modal.
 
-* **Data Persistence:**
-    * **Local Storage:** The contact list is saved to the browser's **Local Storage**. All changes (adds, edits, and deletes) persist even after the user refreshes the page, creating a stateful, real-world experience.
+  * **Advanced State & Navigation:**
 
----
+      * **Global State (Zustand):** All application state (contacts, loading status) and business logic (CRUD actions) are managed in a central Zustand store.
+      * **Client-Side Routing (React Router):** The app is structured with multiple "pages":
+          * `/`: The main contact list page.
+          * `/contact/:id`: A dedicated detail page for each contact.
+      * **Favorite Contacts:** Users can mark/unmark contacts as "favorites."
+      * **Sort by Favorites:** A toggle on the main page allows users to sort their favorite contacts to the top of the list.
 
-##  Tech Stack & Libraries Used
+  * **Interactive UI & UX:**
 
-* **React:** The core library for building the user interface with a component-based architecture.
-* **Vite:** The build tool and development server. Chosen for its blazing-fast HMR (Hot Module Replacement) and modern, ESM-based architecture, which provides a superior developer experience.
-* **Tailwind CSS:** A utility-first CSS framework. Chosen to rapidly build a modern, responsive, and custom-designed UI without writing a single line of traditional CSS.
-    * `@tailwindcss/forms`: A Tailwind plugin used to provide sensible, styled defaults for form elements.
-* **Heroicons:** A high-quality set of SVG icons used throughout the application for a clean and professional look.
-* **react-hot-toast:** A lightweight and customizable library for adding toast notifications. Chosen for its simplicity and elegant API.
+      * **Debounced Search:** The search input is "debounced" by 300ms to prevent excessive re-renders and improve performance.
+      * **Initials Avatars:** Dynamically generated, colored avatars based on contact initials provide a consistent and professional UI.
+      * **Custom Modals:** A reusable "smart" modal is used for adding/editing, and a custom confirmation modal is used for deleting contacts.
+      * **Toast Notifications:** Uses `react-hot-toast` to provide non-intrusive feedback for all user actions (add, update, delete, favorite).
+      * **Rich UI States:** Provides clear user feedback for loading, error, empty list, and "no search results" states.
 
----
+  * **Data Persistence:**
 
-##  How to Set Up and Run Locally
+      * **Local Storage:** The entire contact list, including "favorite" status, is saved to the browser's **Local Storage**. All changes persist even after the user refreshes the page.
+
+-----
+
+## 🛠️ Tech Stack & Libraries Used
+
+  * **React:** The core library for building the user interface.
+  * **Vite:** The build tool and development server, chosen for its speed.
+  * **React Router (v6):** Used for all client-side navigation and routing.
+  * **Zustand:** A simple, fast, and scalable global state manager for handling all contact data and logic.
+  * **Tailwind CSS:** A utility-first CSS framework for rapid, custom UI development.
+      * `@tailwindcss/forms`: A plugin for beautifully resetting and styling form elements.
+  * **Heroicons:** A high-quality set of SVG icons used throughout the application.
+  * **react-hot-toast:** A lightweight and customizable library for adding toast notifications.
+
+-----
+
+## 🚀 How to Set Up and Run Locally
 
 1.  **Clone the Repository:**
+
     ```bash
     git clone https://github.com/ashsingh138/tria_assignment.git
     cd tria_contactlist
     ```
 
 2.  **Install Dependencies:**
-    (This will install React, Vite, Tailwind, Heroicons, etc.)
+    (This will install React, Vite, Zustand, React Router, etc.)
+
     ```bash
     npm install
     ```
 
 3.  **Run the Development Server:**
+
     ```bash
     npm run dev
     ```
@@ -64,30 +78,36 @@ This project implements all core requirements and several advanced features to d
 4.  **Open in Browser:**
     The application will be available at `http://localhost:5173`.
 
----
+-----
 
-##  Assumptions & Design Choices
+## 🧠 Assumptions & Design Choices
 
 The assignment intentionally left some details open. Here are the key assumptions and design decisions I made:
 
-1.  **State Management:**
-    * All application state (e.g., `contacts`, `searchQuery`, `isLoading`) is managed within the top-level `App.jsx` component using React's built-in hooks (`useState`, `useEffect`, `useMemo`, `useCallback`).
-    * This "lifting state up" pattern is efficient and sufficient for an application of this scale. It avoids the premature overhead of external libraries (like Redux) or the Context API.
-    * `useCallback` was used for the `onEdit` and `onDelete` handlers passed to `ContactCard` to prevent unnecessary re-renders of list items.
+1.  **State Management (Zustand):**
 
-2.  **Data Fetching & Local Storage:**
-    * To demonstrate handling asynchronous data, the app *simulates* an API call on first load.
-    * It then adopts a **"Local Storage-first"** strategy. On load, it *first* checks for contacts in `localStorage`. If found, it uses that data. If not, it fetches the mock data (simulating a first-time user).
-    * All subsequent changes are saved directly to `localStorage`, making it the single source of truth after the initial load.
+      * Zustand was chosen for global state management. For an app of this scale, it provides the perfect balance of simplicity and power, avoiding the boilerplate of Redux or the performance/provider-nesting issues of Context.
+      * All business logic (CRUD, local storage) is co-located in the `contactStore.js` file, making components "dumber" and easier to maintain.
 
-3.  **Reusable Modal Component:**
-    * A single, "smart" modal component (`AddContactModal.jsx`) is used for *both* adding and editing contacts.
-    * It dynamically changes its title, button text, and form fields based on a `contactToEdit` prop. If this prop is `null`, the modal is in "Add" mode. If it contains a contact object, it switches to "Edit" mode and pre-fills the form. This is a highly reusable and common pattern.
+2.  **Application Architecture (Routing):**
 
-4.  **Confirmation on Delete:**
-    * To prevent accidental data loss, a simple `window.confirm()` browser dialogue is used before deleting a contact. In a production app, this would be a custom-styled confirmation modal, but `window.confirm()` is a quick and effective way to demonstrate the intended UX.
+      * The application is structured with **React Router** to provide a multi-page experience.
+      * It is split into a `pages/` directory (for routable components like `ContactListPage`) and a `components/` directory (for reusable UI elements like `Avatar` or `ConfirmModal`). This is a standard, scalable pattern.
 
-5.  **AI Usage:**
-    * AI was used as a development partner throughout this assignment.
-    * It helped scaffold the initial project structure, write boilerplate (like the mock data and the `README` structure), and act as a "rubber duck" for debugging and brainstorming new features (like debouncing and local storage).
-    * All code was ultimately written, reviewed, and refactored by me to ensure correctness, maintainability, and a coherent application architecture that meets the assignment's goals.
+3.  **Data Fetching & Local Storage:**
+
+      * The app uses a **"Local Storage-first"** strategy. All interactions with `localStorage` are abstracted away inside the Zustand store.
+      * Components simply call actions (e.g., `addContact()`) and the store handles both updating the in-memory state *and* persisting that change to `localStorage`.
+
+4.  **Reusable Modal Component:**
+
+      * The UI uses two primary modal components: a "smart" `AddContactModal.jsx` for both adding and editing, and a reusable `ConfirmModal.jsx` to provide a non-blocking, theme-consistent confirmation before deleting a contact.
+
+5.  **Avatars:**
+
+      * A custom `Avatar.jsx` component dynamically generates user initials and assigns a consistent background color based on their name. This provides a more professional and consistent UI than using external images.
+
+6.  **AI Usage:**
+
+      * AI  was used as a development partner throughout this assignment. It helped brainstorm the application architecture, write boilerplate code (like mock data),write comments and act as a "rubber duck" for debugging complex logic.
+      * All code was ultimately written, reviewed, and refactored by me to ensure correctness, maintainability, and a coherent application architecture.
